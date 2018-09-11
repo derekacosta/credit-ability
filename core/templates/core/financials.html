@@ -1,0 +1,105 @@
+{% extends 'core/base/base.html' %}
+
+{% block content %}
+
+<h1>{{ user.account.name }}'s Financial Information</h1>
+
+<hr>
+
+<table class="table">
+  	<thead>
+  		<th>Employer</th>
+  		<th>Start Date</th>
+  		<th>End Date</th>
+  		<th>Currently Employed</th>
+  		<th>Wage</th>
+  		<th>Delete</th>
+  	</thead>
+  	<tbody>
+  		{% for entry in account.employment_set.all %}
+  		<tr>
+  			<td>{{ entry.employer }}</td>
+  			<td>{{ entry.start_date }}</td>
+  			<td>{{ entry.end_date }}</td>
+  			<td>{{ entry.currently_employed }}</td>
+  			<td>{{ entry.wage }}</td>
+  			<td>
+  				<form method="post">
+  					{% csrf_token%}
+  					<input type="hidden" name="action" value="delete_employment">
+  					<input type="hidden" name="pk" value="{{entry.pk}}">
+  					<button type="submit" class="btn btn-danger">Delete Job</button>
+  				</form>
+  			</td>
+  		</tr>
+  		{% endfor %}
+  	</tbody>
+  </table>
+
+		<!-- Button trigger modal -->
+	<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#employmentModal">
+	  Add previous employment
+	</button>
+
+  <hr>
+  <br>
+  <h4>Income and Expenses</h4>
+
+  <p>Monthly Income: {{ financials.monthly_income }}</p>
+  <p>Monthly Housing Expenses: {{ financials.housing_expense }}</p>
+
+  <br>
+  <h4>Bank Info</h4>
+
+  <p>Has Bank Account: {{ financials.has_bank_account }}</p>
+  <p>Amount in Account: {{ financials.amount_in_bank }}</p>
+  <p>Amount in Cash: {{ financials.amount_cash }}</p>
+
+  <br>
+  <h4>Time in Country</h4>
+
+  <p>Months spent in country: {{ financials.time_in_europe }}</p>
+
+  <br>
+  <h4>Previous Debts</h4>
+  <p>Has Debt: {{ financials.has_debts }}</p>
+  <p>Amount Debt: {{ financials.amount_debts }}</p>
+  <p>Number of months of debt: {{ financials.num_months_debt }}</p>
+  <p>Is the debt ongoing? {{ financials.ongoing_debt }}</p>
+  <p>Why is the debt ongoing? {{ financials.reason_ongoing }}</p>
+  <p>Number of missed payments: {{ financials.missed_payments }}</p>
+  {% if financials.loan_file %}
+    <p>Loan file: <img src="{{ financials.loan_file.url }}" style="width:50%"></p>
+  {% endif %}
+
+  <a href="{% url 'edit-financials' %}" class="btn btn-primary">Edit</a>
+
+
+  <!-- Employment Modal -->
+<div class="modal fade" id="employmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Employment History</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post">
+	      <div class="modal-body">
+	      		{% csrf_token %}
+	        	{{ employment_form.as_p }}
+	        	<input type="hidden" name="action" value="add_employment">
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-primary">Add</button>
+	      </div>
+  	  </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}
+

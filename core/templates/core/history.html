@@ -1,0 +1,158 @@
+{% extends 'core/base/base.html' %}
+
+{% block content %}
+  <h1>Add Financial Background</h1>
+  <hr>
+
+  <h3>Work Experience</h3>
+
+  <table class="table">
+  	<thead>
+  		<th>Employer</th>
+  		<th>Start Date</th>
+  		<th>End Date</th>
+  		<th>Currently Employed</th>
+  		<th>Monthly Salary</th>
+  	</thead>
+  	<tbody>
+  		{% for entry in employment %}
+  		<tr>
+  			<td>{{ entry.employer }}</td>
+  			<td>{{ entry.start_date }}</td>
+  			<td>{{ entry.end_date }}</td>
+  			<td>{{ entry.currently_employed }}</td>
+  			<td>{{ entry.monthly_salary }}</td>
+  		</tr>
+  		{% endfor %}
+  	</tbody>
+
+  </table>
+
+  <br>
+
+	<!-- Button trigger modal -->
+	<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#employmentModal">
+	  Add previous employment
+	</button>
+
+  <hr>
+
+  <h3>Identification</h3>
+  
+  <img style="width:50%" src="{{ user.account.identification.file.url }}">
+
+  <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#idModal">
+    Upload Identification Document
+  </button>
+
+  <hr>
+
+  <h3>Financial Information</h3>
+
+  <!-- Financial information input -->
+  <form method="post">
+    {% csrf_token %}
+
+    <br>
+    <p><b>Current Income and Expenses</b></p>
+    <p>What is your current montly income? {{ fin_info_form.monthly_income }} </p>
+    <p>What is your curreny housing expense? {{ fin_info_form.housing_expense }}</p>
+
+    <br>
+    <p><b>Do you have a bank account?</b></p>
+
+    <p>Yes: {{ fin_info_form.has_bank_account }}
+    No: <input type="checkbox" name="blank"></p>
+
+    <p>If so, please answer the following:</p>
+
+    <p>What is your bank account balance? {{ fin_info_form.amount_in_bank }}</p>
+
+    <p>What cash do you have available for purchase? {{ fin_info_form.amount_cash }}</p>
+
+    <br>
+    <p><b>Arrival Information</b></p>
+    <p>How many months have you been in this country? {{ fin_info_form.time_in_europe }}</p>
+
+    <br>
+    <p><b>Do you have any previous debts or loans that your can prove?</b></p>
+    <p>Yes: {{ fin_info_form.has_debts }}
+    No: <input type="checkbox" name="blank"></p>
+
+    <p>If so, please answer the following:</p>
+
+    <p>Amount of debt: {{ fin_info_form.amount_debts }} </p>
+
+    <p>Number of months spent paying off debt: {{ fin_info_form.number_months }}</p>
+
+    <p>Is your debt:</p>
+    <p>Ongoing? {{ fin_info_form.ongoing_debt }}</p>
+    <p>Fully paid off? <input type="checkbox" name="blank"></p>
+
+    <p>If the debt is ongoing, why did you not repay the loan? {{ fin_info_form.reason_ongoing }}</p>
+    <p>If the debt was not paid off, how many months did you miss on the loan? {{ fin_info_form.missed_payments }}</p>
+
+    <p>If you are presenting a fully paid off loan, please upload documentation of the loan payment in full: {{ fin_info_form.loan_file }}</p>
+
+    <input type="hidden" name="action" value="fin_info">
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a href="/" class="btn btn-secondary">Home</a>
+  </form>
+
+
+  <hr>
+
+
+<!-- Employment Modal -->
+<div class="modal fade" id="employmentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Employment History</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post">
+	      <div class="modal-body">
+	      		{% csrf_token %}
+	        	{{ employment_form.as_p }}
+            <p>Note: If you have a valid paystub for this job, please upload it to verify employment. Otherwise, the employer will be contacted via the phone number input above. </p>
+	        	<input type="hidden" name="action" value="add_employment">
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+	        <button type="submit" class="btn btn-primary">Add</button>
+	      </div>
+  	  </form>
+    </div>
+  </div>
+</div>
+
+<!-- Photo Modal -->
+<div class="modal fade" id="idModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Add Identification Document</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" enctype="multipart/form-data">
+        <div class="modal-body">
+            {% csrf_token %}
+            {{ file_form.as_p }}
+            <input type="hidden" name="action" value="add_id">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %}

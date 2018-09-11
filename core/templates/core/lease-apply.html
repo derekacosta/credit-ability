@@ -1,0 +1,35 @@
+{% extends 'core/base/base.html' %}
+
+{% block content %}
+  <h1>Apply for Lease Support</h1>
+  <hr>
+
+  {% if account.applied_for_lease %}
+  	<p>You have already applied for a lease.</p>
+  {% else %}
+
+<p>You are applying for Lease Support.</p>
+
+<p>What is Lease Support?</p>
+<p>If you are confident you can pay your rent, but are unable to prove this to your landlord, you can apply for “lease support” from us. Lease support will help you get a “guarantor” or a 3rd party organization that will co-sign the lease with you. You are still responsible for all rent payments, but the 3rd party organization will help tell the landlord that they trust you to make the repayments. If you are unable to pay rent one month, the 3rd party organization will provide the rent for 1 month and this will have to be repaid by you later.</p>
+
+<p>If your application for lease support is accepted, we will help you contact the guarantor and finalize this partnership.</p>
+
+<p>Please enter the details of your proposed lease below:<p>
+<ol>
+	<li>What is the length of the proposed lease?</li>
+	<li>What is the rent of the proposed lease?</li>
+	<li>How many months is the lease?</li>
+</ol>
+
+
+  <form method="post">
+  	{% csrf_token %}
+  	{{ lease_form.as_p }}
+  	<input type="hidden" name="action" value="lease-app">
+  	<button type="submit" class="btn btn-primary">Submit Lease Support Application</button>
+  </form>
+
+  {% endif %}
+
+{% endblock %}

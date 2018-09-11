@@ -1,0 +1,30 @@
+{% extends 'core/base/base.html' %}
+
+
+{% block content %}
+
+{% if access %}
+
+<h1>{{ user.account.name }}'s Profile</h1>
+
+<hr>
+
+<h2>Creditability Score: {{ profile.credit_score }}</h2>
+
+<p>Name: {{ profile.name }}</p>
+<p>City: {{ profile.city }}</p>
+<p>Country: {{ profile.country }}</p>
+<p>Phone: {{ profile.phone }}</p>
+<p>Age: {{ profile.age }}</p>
+
+<p>Profile Photo:</p>
+<img src="{{profile.profile_photo.url}}" style="width:50%">
+<hr>
+
+{% else %}
+
+<h4>You no longer have access to this account.</h4>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,80 @@
+.buttons-box {
+	display:flex;
+	justify-content: space-around;
+	width:100%;
+	flex-wrap:wrap;
+	max-width:720px;
+}
+
+.buttons-box-button {
+	width:49%;
+	height:250px;
+	color:#777;
+	margin-bottom:10px;
+}
+
+.button-label-content {
+	font-size:18px;
+	text-align:center;
+	width:100%;
+	margin-top:10px;
+	margin-left:auto;
+}
+
+.buttons-box-button .button-image {
+	width: 150px;
+	height: 150px;
+	border-radius: 150px;
+	border: 5px #777 solid;
+	margin:auto;
+}
+
+.buttons-box-button .financials-icon {
+	background-image: url('/static/icons/financials-icon.png');
+	background-size: cover;
+}
+
+.buttons-box-button .notifications-icon {
+	background-image: url('/static/icons/notifications-icon.png');
+	background-size: cover;
+
+}
+
+.buttons-box-button .help-icon {
+	background-image: url('/static/icons/help-icon.png');
+	background-size: cover;
+}
+
+.form-container {
+	padding:10px 20px 10px 20px;
+}
+
+#score-viewer {
+	width:400px;
+	display:block;
+	margin:-10px auto 0px auto;
+}
+
+.row {
+	justify-content: center;
+}
+
+
+/* mobile */
+@media screen and (max-width:600px) {
+
+	.buttons-box-button .button-image {
+		width: 130px !important;
+		height: 130px !important;
+		border-radius: 140px !important;
+		border: 5px #777 solid;
+		margin:auto;
+	}
+	.buttons-box-button {
+		margin-bottom:0px !important;
+		height:190px;
+	}
+	#score-viewer {
+		width:150px;
+	}
+}

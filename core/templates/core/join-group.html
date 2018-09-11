@@ -1,0 +1,29 @@
+{% extends 'core/base/base.html' %}
+
+{% block content %}
+  <h1>Join a Group</h1>
+  <hr>
+
+  {% if account.has_lease %}
+  	<h4>Create a new Group</h4>
+  	<form method="post">
+  		{% csrf_token %}
+  		{{ create_form.as_p }}
+  		<input type="hidden" name="action" value="create">
+  		<button type="submit" class="btn btn-primary">Create</button>
+  	</form>
+
+  	<hr>
+  	<h4>Join an Existing Group</h4>
+  	  <form method="post">
+  		{% csrf_token %}
+  		{{ join_form.as_p }}
+  		 <input type="hidden" name="action" value="join">
+  		<button type="submit" class="btn btn-primary">Join</button>
+  	</form>
+
+  {% else %}
+  	<p>You must be in a lease to join a rotating credit insurance group.</p>
+  {% endif %}
+
+{% endblock %}
